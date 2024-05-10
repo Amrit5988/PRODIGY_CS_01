@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; /* Remove default margin to make it full-width */
+    background-image: url("download.gif"); /* Add the path to your background image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    margin: center;
+}
+
+.instructions {
+    text-align: left;
+    padding: 20px;
+    background-color: black; /* Set the background color to black */
+    border-radius: 10px;
+    width: 50%; /* Adjust the width as needed */
+    color: white; /* Set text color to white */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+#password-container {
+    text-align: center;
+    padding: 40px; /* Increase padding to make the container larger */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 50%; /* Adjust the width as needed */
+    box-sizing: border-box; /* Include padding in the width */
+    background-color :floralwhite;
+}
+
+#password-container input,
+#password-container button {
+    margin-top: 10px;
+}
