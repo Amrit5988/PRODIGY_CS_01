@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0; /* Remove default margin to make it full-width */
+            background-image: url("download.gif"); /* Add the path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            margin: center;
+        }
+
+        .instructions {
+            text-align: left;
+            padding: 20px;
+            background-color: black; /* Set the background color to black */
+            border-radius: 10px;
+            width: 50%; /* Adjust the width as needed */
+            color: white; /* Set text color to white */
+            box-sizing: border-box; /* Include padding in the width */
+        }
+
+        #password-container {
+            text-align: center;
+            padding: 40px; /* Increase padding to make the container larger */
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 50%; /* Adjust the width as needed */
+            box-sizing: border-box; /* Include padding in the width */
+            background-color :floralwhite;
+        }
+
+        #password-container input,
+        #password-container button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h2>How to Create a Strong Password:</h2>
+            <ul>
+                        <li>Length: Use a minimum of 12 characters. Longer passwords are generally more secure.</li>
+                        <li>Complexity: Include a mix of uppercase and lowercase letters, numbers, and special characters (!, @, #, etc.).</li>
+                        <li>Avoid Common Words: Avoid using easily guessable information, such as common words, names, or phrases.</li>
+                        <li>Unpredictability: Create a password that is not easily guessable by avoiding predictable patterns or sequences.</li>
+                        <li>Uniqueness: Use a unique password for each of your accounts to prevent a security breach on one account from affecting others.</li>
+                        <li>Avoid Personal Information: Do not use easily accessible personal information, such as birthdays or addresses.</li>
+                        <li>Randomness: Consider using a random combination of characters or a passphrase that is memorable only to you.</li>
+                        <li>Regular Updates: Change your passwords regularly to enhance security.</li>
+                        <li>Example of a strong password: "J$8pL#2s!qR9".</li> 
+                        <li>Remember that a passphrase, a combination of unrelated words or a sentence, can also be a strong and memorable option, such as "BlueJacket$42Sunset".</li>
+            </ul>
+        </div>
+
+        <div id="password-container">
+            <h1>Password Strength Checker</h1>
+            <label>
+                Include:
+                <input type="checkbox" id="include-lowercase" checked> Lowercase Letters
+                <input type="checkbox" id="include-uppercase" checked> Uppercase Letters
+                <input type="checkbox" id="include-numbers" checked> Numbers
+                <input type="checkbox" id="include-symbols" checked> Symbols
+            </label>
+            <br>
+            <label>Password Length: <input type="number" id="password-length" min="1" value="12"></label>
+            <button id="generate-btn">Generate Password</button>
+            <div id="password-container">
+                <label>Password:</label>
+                <input type="text" id="password" readonly>
+                <p id="password-strength"></p>
+                <p id="password-status"></p>
+            </div>
+            <div>
+                <label>Enter Your Password: <input type="password" id="user-password"></label>
+                <button id="check-btn">Check Password</button>
+                <p id="user-strength"></p>
+                <p id="user-status"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate a random password
+        function generatePassword() {
+            const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+            const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numberChars = "0123456789";
+            const symbolChars = "!@#$%^&*()_+";
+            const includeLowercase = document.getElementById("include-lowercase").checked;
+            const includeUppercase = document.getElementById("include-uppercase").checked;
+            const includeNumbers = document.getElementById("include-numbers").checked;
+            const includeSymbols = document.getElementById("include-symbols").checked;
+
+            let charset = "";
+
+            if (includeLowercase) {
+                charset += lowercaseChars;
+            }
+            if (includeUppercase) {
+                charset += uppercaseChars;
+            }
+            if (includeNumbers) {
+                charset += numberChars;
+            }
+            if (includeSymbols) {
+                charset += symbolChars;
+            }
+
+            const passwordLength = parseInt(document.getElementById("password-length").value);
+            if (isNaN(passwordLength) || passwordLength <= 0) {
+                alert("Please enter a valid positive integer for the password length.");
+                return "";
+            }
+
+            let password = "";
+
+            for (let i = 0; i < passwordLength; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+
+            return password;
+        }
+
+        // Function to check password strength
+        function checkPasswordStrength(password) {
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+])[A-Za-z\d@#$%^&*()_+]{8,}$/;
+            if (regex.test(password)) {
+                return "Strong";
+            } else if (password.length >= 8) {
+                return "Intermediate";
+            } else {
+                return "Weak";
+            }
+        }
+
+        // Function to check if a password has been compromised in data breaches
+        async function checkPasswordLeaks(password) {
+            // (Existing checkPasswordLeaks function)
+
+            return 0;
+        }
+
+        // (Existing sha1 function)
+
+        const generateBtn = document.getElementById("generate-btn");
+        const passwordInput = document.getElementById("password");
+        const passwordStrengthLabel = document.getElementById("password-strength");
+        const passwordStatusLabel = document.getElementById("password-status");
+        const userPasswordInput = document.getElementById("user-password");
+        const checkBtn = document.getElementById("check-btn");
+        const userStrengthLabel = document.getElementById("user-strength");
+        const userStatusLabel = document.getElementById("user-status");
+
+        generateBtn.addEventListener("click", async function () {
+            const newPassword = generatePassword();
+            if (newPassword !== "") {
+                const strength = checkPasswordStrength(newPassword);
+                passwordInput.value = newPassword;
+                passwordStrengthLabel.textContent = `Password Strength: ${strength}`;
+
+                const leakCount = await checkPasswordLeaks(newPassword);
+                if (leakCount > 0) {
+                    passwordStatusLabel.textContent = `This password has been leaked ${leakCount} times!`;
+                } else {
+                    passwordStatusLabel.textContent = "This password has not been leaked.";
+                }
+            }
+        });
+
+        checkBtn.addEventListener("click", async function () {
+            const userPassword = userPasswordInput.value;
+            const strength = checkPasswordStrength(userPassword);
+            userStrengthLabel.textContent = `Password Strength: ${strength}`;
+
+            const leakCount = await checkPasswordLeaks(userPassword);
+            if (leakCount > 0) {
+                userStatusLabel.textContent = `This password has been leaked ${leakCount} times!`;
+            } else {
+                userStatusLabel.textContent = "This password has not been leaked.";
+            }
+        });
+    </script>
+</body>
+</html>
